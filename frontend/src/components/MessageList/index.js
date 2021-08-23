@@ -30,7 +30,7 @@ const MessageList = (props) => {
         {
           messages && messages.length > 0 &&
           messages.map(message =>
-            <div className={`message-item ${contact.id !== message.contact ? "contact" : ""}`}>{contact.id !== message.contact ? "Eu:" : "ele(a):"}{message.message}</div>
+            <div className={`message-item ${contact.id !== message.contact ? "contact" : ""}`}>{contact.id === message.contact ? "Eu: " : "Ele(a): "}{message.message}</div>
           )
         }
       </div>
