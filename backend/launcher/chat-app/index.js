@@ -34,9 +34,10 @@ io.on('connection', (socket) => {
     socket.leave(room)
   })
 
-  socket.on('chat', (data) => {
+  socket.on('chat', async (data) => {
     const { message, room, contact } = data
     console.log(`msg: ${message}, room: ${room}, contact: ${contact}`)
+    await Message.callback.createByRoom({ data: { room, message } })
     io.to(room).emit('new-message', { message, contact })
   })
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import ContactList from 'components/ContactList'
 import MessageList from 'components/MessageList'
 import { connect, join, leave, subscribeToChat, sendMessage, disconnect, subscribeToNewContact } from 'helpers/Socket'
-import { loadContactJoined } from "helpers/API"
+import { loadContactJoined, messageByRoom } from "helpers/API"
 
 const LOGIN_CONTACT_ID = 'a74979f2-5c2a-41b6-a5bc-ded8c1649b8e'
 let JOINED_PISANI_ID = null
@@ -27,7 +27,9 @@ const Chat = (props) => {
     }
     join(new_joinned_id)
     JOINED_PISANI_ID = new_joinned_id
-    setMessages([])
+    messageByRoom(new_joinned_id, (data) => {
+      setMessages(data)
+    })
   }
 
   useEffect(() => {

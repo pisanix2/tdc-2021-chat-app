@@ -10,6 +10,16 @@ export const contractSave = (data, fn) => {
     .then(fn)
 }
 
+export const messageByRoom = (room, fn) => {
+  fetch(
+    `${process.env.REACT_APP_API_URL}/api/message/${room}`
+  )
+    .then(res => res.json())
+    .then(data => {
+      fn(data)
+    })
+}
+
 export const loadContactJoined = (contact_id, fn) => {
   fetch(
     `${process.env.REACT_APP_API_URL}/api/contact/${contact_id}/joined`
