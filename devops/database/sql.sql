@@ -3,8 +3,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 create table public.tdc_contact (
 	id uuid NOT NULL DEFAULT uuid_generate_v4(),
 	title varchar(80) not null,
-	login varchar(250) not null,
-	pwd varchar(250) not null,
 	
 	"createdAt" timestamp NOT NULL DEFAULT now(),
 	"updatedAt" timestamp NULL,

@@ -1,6 +1,8 @@
 import './index.css';
 import React from 'react'
 
+import ContactCreate from 'components/ContactCreate'
+
 const ContactList = (props) => {
   const { contacts, handlerContact } = props
 
@@ -12,15 +14,15 @@ const ContactList = (props) => {
 
   return (
     <div className="contact-list">
-      <p>Contact list</p>
-      <>
+      <ContactCreate />
+      <div className="contact-list-container">
         {
           contacts && contacts.length > 0 &&
           contacts.map(contact =>
-            <button onClick={onContactClick(contact)}>{contact.title}</button>
+            <button className="btn-contact" onClick={onContactClick(contact)}>{contact.title}</button>
           )
         }
-      </>
+      </div>
     </div>
   )
 }

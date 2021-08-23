@@ -3,14 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    login: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    pwd: {
-      type: DataTypes.STRING,
-      allowNull: false
     }
   }, { paranoid: true, tableName: 'tdc_contact' })
 

@@ -1,6 +1,6 @@
 const HTTPStatus = require('http-status')
 const { db } = require('integrations/sequelize')
-const { getJoined, create, login, join } = require('modules/Contact/controllers')
+const { getJoined, create, join } = require('modules/Contact/controllers')
 
 const handler = {}
 
@@ -19,16 +19,6 @@ handler.create = async (req, res, next) => {
     res
       .status(HTTPStatus.CREATED)
       .json(await create({ data: req.body, db }))
-  } catch (err) {
-    return next(err)
-  }
-}
-
-handler.login = async (req, res, next) => {
-  try {
-    res
-      .status(HTTPStatus.OK)
-      .json(await login({ data: req.body, db }))
   } catch (err) {
     return next(err)
   }

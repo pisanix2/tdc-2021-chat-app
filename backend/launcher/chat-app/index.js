@@ -35,10 +35,14 @@ io.on('connection', (socket) => {
   })
 
   socket.on('chat', (data) => {
-    const { message, room } = data
-    console.log(`msg: ${message}, room: ${room}`)
-    io.to(room).emit('new-message', message)
- })
+    const { message, room, contact } = data
+    console.log(`msg: ${message}, room: ${room}, contact: ${contact}`)
+    io.to(room).emit('new-message', { message, contact })
+  })
+
+  socket.on('contact-created', () => {
+    io.sockets.emit('new-contact', '')
+  })
 
 })
 

@@ -18,17 +18,32 @@ export const leave = (room) => {
 
 export const disconnect = () => {
   console.log('Disconnecting socket...')
-  if(socket) socket.disconnect()
+  if (socket) socket.disconnect()
 }
 
 export const subscribeToChat = (cb) => {
-  if (!socket) return(true)
+  if (!socket) return (true)
   socket.on('new-message', msg => {
     console.log('new-message received: ', msg)
     return cb(null, msg)
   })
 }
 
-export const sendMessage = (room, message) => {
-  if (socket) socket.emit('chat', { message, room })
+export const subscribeToNewContact = (cb) => {
+  if (!socket) return (true)
+  socket.on('new-contact', data => {
+    console.log('new-contact received: ', data)
+    return cb(null, data)
+  })
+}
+
+export const sendMessage = (room, contact, message) => {
+  if (socket) socket.emit('chat', { message, room, contact })
+}
+
+export const sendNewContact = (data) => {
+  if (socket) {
+    socket.emit('contact-created', data)
+    console.log('contact-created')
+  }
 }

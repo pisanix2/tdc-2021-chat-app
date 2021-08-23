@@ -2,32 +2,30 @@ import './index.css';
 import React, { useState, useEffect, useRef } from "react"
 import ContactList from 'components/ContactList'
 import MessageList from 'components/MessageList'
-import { connect, join, leave, subscribeToChat, sendMessage, disconnect } from 'helpers/Socket'
+import { connect, join, leave, subscribeToChat, sendMessage, disconnect, subscribeToNewContact } from 'helpers/Socket'
+import { loadContactJoined } from "helpers/API"
 
-const LOGIN_CONTACT_ID = '742e59d7-4e0c-41c2-a1a9-14fd3f419b74'
-const JOINED_PISANI_ID = '1bdbe1fb-c2c5-4a64-a3ad-e94c231765b2'
-const JOINED_JULIO_ID = '3f725269-ca4f-4b12-9443-2db58a585b2d'
+const LOGIN_CONTACT_ID = 'a74979f2-5c2a-41b6-a5bc-ded8c1649b8e'
+const JOINED_PISANI_ID = 'e5126dc5-8c6d-4c0f-8a4a-6b8e7c0dfb66'
 
 const Chat = (props) => {
   const [contacts, setContacts] = useState([])
   const [messages, setMessages] = useState([])
 
-  const loadContactJoined = (contact_id) => {
-    fetch(
-      `${process.env.REACT_APP_API_URL}/api/contact/${contact_id}/joined`
-    )
-      .then(res => res.json())
-      .then(data => {
-        setContacts(data)
-      })
+  const loadContact = () => {
+    loadContactJoined(LOGIN_CONTACT_ID, setContacts)
   }
 
   const sendNewMessage = (msg) => {
-    sendMessage(JOINED_PISANI_ID, msg)
+    sendMessage(JOINED_PISANI_ID, LOGIN_CONTACT_ID, msg)
   }
 
   const onReceiveNewMessage = (err, data) => {
-    setMessages(oldChats => [data, ...oldChats])
+    setMessages(oldChats => [...oldChats, data])
+  }
+
+  const onNewContact = (err, data) => {
+    loadContact()
   }
 
   const onChangeContact = (old_joinned_id, new_joinned_id) => {
@@ -38,11 +36,12 @@ const Chat = (props) => {
   }
 
   useEffect(() => {
-    loadContactJoined(LOGIN_CONTACT_ID)
+    loadContact()
 
     connect()
     join(JOINED_PISANI_ID)
     subscribeToChat(onReceiveNewMessage)
+    subscribeToNewContact(onNewContact)
 
     return () => {
       disconnect();
@@ -52,7 +51,7 @@ const Chat = (props) => {
   return (
     <div className='chat'>
       <ContactList contacts={contacts} />
-      <MessageList messages={messages} />
+      <MessageList messages={messages} joinedId={JOINED_PISANI_ID} contact={LOGIN_CONTACT_ID} />
     </div>
   )
 }

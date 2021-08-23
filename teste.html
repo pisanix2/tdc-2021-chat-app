@@ -4,8 +4,9 @@
   </head>
   <body>
     <script>
-      const JOINED_PISANI_ID = '1bdbe1fb-c2c5-4a64-a3ad-e94c231765b2'
+      const JOINED_PISANI_ID = 'e5126dc5-8c6d-4c0f-8a4a-6b8e7c0dfb66'
       const socket = io("http://localhost:8090");
+      // const socket = io("http://143.198.77.161:8080");
       socket.emit('join', JOINED_PISANI_ID)
       socket.on('new-message', (data) => {
         console.log('new-message received: ', data)

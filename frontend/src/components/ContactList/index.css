@@ -1,7 +1,20 @@
 .contact-list {
-  background-color: #00ff00;
+  background-color: #b6b6b6;
   min-height: 100vh;
   display: flex;
   width: 280px;
   flex-direction: column;
+  text-align: center;
+}
+
+.btn-contact {
+  margin: 5px;
+  height: 35px;
+}
+
+.contact-list-container {
+  height: calc(100vh - 51px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
