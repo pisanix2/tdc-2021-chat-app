@@ -4,7 +4,7 @@
   </head>
   <body>
     <script>
-      const JOINED_PISANI_ID = 'e5126dc5-8c6d-4c0f-8a4a-6b8e7c0dfb66'
+      const JOINED_PISANI_ID = '90c5dc8b-6d86-4bfb-8bff-8e109de5eb0c'
       const socket = io("http://localhost:8090");
       // const socket = io("http://143.198.77.161:8080");
       socket.emit('join', JOINED_PISANI_ID)
@@ -13,7 +13,7 @@
       })
       setTimeout(() => {
         socket.emit('chat', { room: JOINED_PISANI_ID, message: 'mensagem client to client'})
-      }, 3000)
+      }, 300)
     </script>
   </body>
 </html>

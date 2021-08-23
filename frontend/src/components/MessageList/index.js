@@ -12,8 +12,16 @@ const MessageList = (props) => {
   };
 
   const onSendMessage = () => {
-    sendMessage(joinedId, contact, message)
-    setMessage('')
+    if (message) {
+      sendMessage(joinedId, contact, message)
+      setMessage('')
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      onSendMessage()
+    }
   }
 
   return (
@@ -27,7 +35,7 @@ const MessageList = (props) => {
         }
       </div>
       <div className="message-send">
-        <input type="text" value={message} onChange={handleMessageInput}></input>
+        <input type="text" value={message} onChange={handleMessageInput} onKeyDown={handleKeyDown}></input>
         <button onClick={onSendMessage}>Enviar</button>
       </div>
     </div>

@@ -4,8 +4,7 @@ import React from 'react'
 import ContactCreate from 'components/ContactCreate'
 
 const ContactList = (props) => {
-  const { contacts, handlerContact } = props
-
+  const { contacts, handlerContact, joinedId } = props
   const onContactClick = (contact) => {
     return () => {
       handlerContact(contact)
@@ -19,7 +18,7 @@ const ContactList = (props) => {
         {
           contacts && contacts.length > 0 &&
           contacts.map(contact =>
-            <button className="btn-contact" onClick={onContactClick(contact)}>{contact.title}</button>
+            <button className={`btn-contact ${joinedId === contact.joinned ? 'active' : ''}`} onClick={onContactClick(contact)}>{contact.title}</button>
           )
         }
       </div>

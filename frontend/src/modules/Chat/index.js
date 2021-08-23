@@ -6,7 +6,7 @@ import { connect, join, leave, subscribeToChat, sendMessage, disconnect, subscri
 import { loadContactJoined } from "helpers/API"
 
 const LOGIN_CONTACT_ID = 'a74979f2-5c2a-41b6-a5bc-ded8c1649b8e'
-const JOINED_PISANI_ID = 'e5126dc5-8c6d-4c0f-8a4a-6b8e7c0dfb66'
+let JOINED_PISANI_ID = null
 
 const Chat = (props) => {
   const [contacts, setContacts] = useState([])
@@ -16,8 +16,8 @@ const Chat = (props) => {
     loadContactJoined(LOGIN_CONTACT_ID, setContacts)
   }
 
-  const sendNewMessage = (msg) => {
-    sendMessage(JOINED_PISANI_ID, LOGIN_CONTACT_ID, msg)
+  const handlerContact = (contact) => {
+    changeContact(JOINED_PISANI_ID, contact.joinned)
   }
 
   const onReceiveNewMessage = (err, data) => {
@@ -25,14 +25,16 @@ const Chat = (props) => {
   }
 
   const onNewContact = (err, data) => {
-    loadContact()
+    loadContact(data)
   }
 
-  const onChangeContact = (old_joinned_id, new_joinned_id) => {
+  const changeContact = (old_joinned_id, new_joinned_id) => {
     if (old_joinned_id) {
       leave(old_joinned_id)
     }
     join(new_joinned_id)
+    JOINED_PISANI_ID = new_joinned_id
+    setMessages([])
   }
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Chat = (props) => {
 
   return (
     <div className='chat'>
-      <ContactList contacts={contacts} />
+      <ContactList contacts={contacts} joinedId={JOINED_PISANI_ID} handlerContact={handlerContact} />
       <MessageList messages={messages} joinedId={JOINED_PISANI_ID} contact={LOGIN_CONTACT_ID} />
     </div>
   )

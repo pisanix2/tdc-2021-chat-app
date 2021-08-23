@@ -18,3 +18,8 @@
   flex-direction: column;
   overflow-y: auto;
 }
+
+.btn-contact.active {
+  background-color: #FA8072;
+  border: none;
+}
