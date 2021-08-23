@@ -1,0 +1,43 @@
+# to run compose
+## docker-compose -f devops/docker-compose.yml up -d
+# to stop compose
+## docker-compose -f devops/docker-compose.yml down
+
+version: '3'
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: chat
+    volumes:
+      - ./database/sql.sql:/docker-entrypoint-initdb.d/init.sql
+  api:
+    build:
+      context: ../backend/
+      dockerfile: ../devops/backend.dockerfile
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      PORT: 8080
+      LAUNCHER_NAME: chat-app
+      DATABASE_HOST: postgres
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: chat
+      DATABASE_PORT: 5432
+  front:
+    build:
+      context: ../frontend/
+      dockerfile: ../devops/frontend.dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    environment: 
+      REACT_APP_API_URL: http://localhost:8080
+

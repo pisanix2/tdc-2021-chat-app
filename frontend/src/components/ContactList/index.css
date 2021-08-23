@@ -1,0 +1,7 @@
+.contact-list {
+  background-color: #00ff00;
+  min-height: 100vh;
+  display: flex;
+  width: 280px;
+  flex-direction: column;
+}

@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <script src="https://cdn.socket.io/4.1.2/socket.io.min.js" integrity="sha384-toS6mmwu70G0fw54EGlWWeA4z3dyJ+dlXBtSURSKN4vyRFOcxd3Bzjj/AoOwY+Rg" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <script>
+      const JOINED_PISANI_ID = '1bdbe1fb-c2c5-4a64-a3ad-e94c231765b2'
+      const socket = io("http://localhost:8090");
+      socket.emit('join', JOINED_PISANI_ID)
+      socket.on('new-message', (data) => {
+        console.log('new-message received: ', data)
+      })
+      setTimeout(() => {
+        socket.emit('chat', { room: JOINED_PISANI_ID, message: 'mensagem client to client'})
+      }, 3000)
+    </script>
+  </body>
+</html>
