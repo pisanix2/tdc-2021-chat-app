@@ -9,12 +9,9 @@ const LOGIN_CONTACT_ID = 'a74979f2-5c2a-41b6-a5bc-ded8c1649b8e'
 let JOINED_PISANI_ID = null
 
 const Chat = (props) => {
+  const [activeContact, setActiveContact] = useState(null)
   const [contacts, setContacts] = useState([])
   const [messages, setMessages] = useState([])
-
-  const loadContact = () => {
-    loadContactJoined(LOGIN_CONTACT_ID, setContacts)
-  }
 
   const handlerContact = (contact) => {
     changeContact(JOINED_PISANI_ID, contact.joinned)
@@ -22,10 +19,6 @@ const Chat = (props) => {
 
   const onReceiveNewMessage = (err, data) => {
     setMessages(oldChats => [...oldChats, data])
-  }
-
-  const onNewContact = (err, data) => {
-    loadContact(data)
   }
 
   const changeContact = (old_joinned_id, new_joinned_id) => {
@@ -38,22 +31,35 @@ const Chat = (props) => {
   }
 
   useEffect(() => {
-    loadContact()
+    const contact = localStorage.getItem('contact')
+    if (contact) {
+      const contactObj = JSON.parse(contact)
+      setActiveContact(contactObj)
+      loadContactJoined(contactObj.id, setContacts)
+    }
+  }, [setActiveContact])
 
+  useEffect(() => {
     connect()
     join(JOINED_PISANI_ID)
     subscribeToChat(onReceiveNewMessage)
-    subscribeToNewContact(onNewContact)
+
+    const loadContact = () => {
+      if (activeContact) {
+        loadContactJoined(activeContact.id, setContacts)
+      }
+    }
+    subscribeToNewContact(loadContact)
 
     return () => {
       disconnect();
     }
-  }, [messages])
+  }, [messages, activeContact])
 
   return (
     <div className='chat'>
       <ContactList contacts={contacts} joinedId={JOINED_PISANI_ID} handlerContact={handlerContact} />
-      <MessageList messages={messages} joinedId={JOINED_PISANI_ID} contact={LOGIN_CONTACT_ID} />
+      <MessageList messages={messages} joinedId={JOINED_PISANI_ID} contact={activeContact} />
     </div>
   )
 }

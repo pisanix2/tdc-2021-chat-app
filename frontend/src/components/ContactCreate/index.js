@@ -11,7 +11,7 @@ const ContactCreate = (props) => {
     localStorage.setItem('contact', JSON.stringify(data))
     setContact(data)
     sendNewContact()
-    // Call id change
+    window.location.reload()
   }
 
   const contactSave = () => {
@@ -22,7 +22,6 @@ const ContactCreate = (props) => {
     const contact = localStorage.getItem('contact')
     if (contact) {
       setContact(JSON.parse(contact))
-      // Call id change
     }
   }, [setContact])
 
