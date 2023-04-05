@@ -10,11 +10,12 @@
       "console": "integratedTerminal",
       "name": "chat-app api",
       "program": "${workspaceFolder}/backend/index.js",
-      "runtimeVersion": "14.16.1",
+      "runtimeVersion": "16.14.2",
       "env": {
         "PORT": "8090",
         "LOGGER_LEVEL": "debug",
-        "NODE_PATH": "${workspaceFolder}/backend"
+        "NODE_PATH": "${workspaceFolder}/backend",
+        "LAUNCHER_NAME": "chat-app"
       },
     }, 
     {
@@ -29,6 +30,7 @@
       "port": 3000,
       "cwd": "${workspaceRoot}/frontend",
       "timeout": 10000,
+      "runtimeVersion": "16.14.2",
       "env": {
         "REACT_APP_API_URL": "http://localhost:8090"
       }
